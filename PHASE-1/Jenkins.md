@@ -3,24 +3,24 @@
 
 ```bash
 #!/bin/bash
+sudo apt update
+sudo apt install fontconfig openjdk-21-jre
+java -version
 
-# Install OpenJDK 17 JRE Headless
-sudo apt install openjdk-17-jre-headless -y
-
-# Download Jenkins GPG key
-sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
-  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-
-# Add Jenkins repository to package manager sources
-echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
   https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt update
+sudo apt install jenkins
 
-# Update package manager repositories
-sudo apt-get update
+sudo systemctl enable jenkins
 
-# Install Jenkins
-sudo apt-get install jenkins -y
+sudo systemctl start jenkins
+
+sudo systemctl status jenkins
+
 ```
 
 Save this script in a file, for example, `install_jenkins.sh`, and make it executable using:
